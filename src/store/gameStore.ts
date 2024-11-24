@@ -1,15 +1,14 @@
 import { create } from "zustand"
-import { GameState } from "../types/game.types"
+import { PlayerState } from "../types/game.types"
 
-export const useGameStore = create<GameState>((set) => ({
-  currentQuestion: 0,
+export const useGameStore = create<PlayerState>((set) => ({
   answers: {},
-  setAnswer: (questionId, answer) =>
+  completedZones: [],
+  currentZone: null,
+  setAnswer: (zoneId: string, answer: string) =>
     set((state) => ({
-      answers: { ...state.answers, [questionId]: answer },
+      answers: { ...state.answers, [zoneId]: answer },
+      completedZones: [...state.completedZones, zoneId],
     })),
-  nextQuestion: () =>
-    set((state) => ({
-      currentQuestion: state.currentQuestion + 1,
-    })),
+  setCurrentZone: (zoneId: string | null) => set({ currentZone: zoneId }),
 }))

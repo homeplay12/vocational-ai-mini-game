@@ -1,32 +1,17 @@
-import { useRef } from "react"
-import { useFrame } from "@react-three/fiber"
-import * as THREE from "three"
+import { Instance, Instances } from "@react-three/drei"
 
-export const Environment = () => {
-  const groupRef = useRef<THREE.Group>()
-
-  useFrame(({ clock }) => {
-    if (groupRef.current) {
-      groupRef.current.rotation.y = clock.getElapsedTime() * 0.05
-    }
-  })
-
+export const Trees: React.FC = () => {
   return (
-    <group ref={groupRef}>
-      {/* Decorative background elements */}
-      {Array.from({ length: 100 }).map((_, i) => (
-        <mesh
+    <Instances>
+      <cylinderGeometry args={[0.2, 0.2, 2]} />
+      <meshStandardMaterial color="#654321" />
+      {Array.from({ length: 50 }).map((_, i) => (
+        <Instance
           key={i}
-          position={[
-            Math.random() * 40 - 20,
-            Math.random() * 40 - 20,
-            Math.random() * 40 - 20,
-          ]}
-        >
-          <boxGeometry args={[0.1, 0.1, 0.1]} />
-          <meshStandardMaterial color="#ffffff" transparent opacity={0.1} />
-        </mesh>
+          position={[Math.random() * 80 - 40, 1, Math.random() * 80 - 40]}
+          scale={[1, 1 + Math.random(), 1]}
+        />
       ))}
-    </group>
+    </Instances>
   )
 }
